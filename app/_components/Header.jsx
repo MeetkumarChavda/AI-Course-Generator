@@ -7,18 +7,18 @@ import { motion } from "framer-motion"
 export default function Header() {
   return (
     <motion.header 
-      className="border-b border-primary/10 py-3 sm:py-4 px-3 sm:px-4 md:px-8 lg:px-12 sticky top-0 z-50 bg-background/80 backdrop-blur-md"
+      className="sticky top-0 z-50 backdrop-blur-xl bg-background/60 border-b border-primary/10 py-3"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <motion.div 
-          className="flex items-center gap-1 sm:gap-2"
-          whileHover={{ scale: 1.05 }}
+          className="flex items-center gap-2"
+          whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <div className="relative w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10">
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9">
             <motion.svg 
               width="100%" 
               height="100%" 
@@ -43,18 +43,18 @@ export default function Header() {
               <path d="M100,100 L70,50 Q60,30 80,40 L100,100" fill="#FF33CC" />
             </motion.svg>
           </div>
-          <span className="text-sm sm:text-base md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">AI Course Generator</span>
+          <span className="text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">AI Course Generator</span>
         </motion.div>
         
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             <Link 
               href="/get-started" 
-              className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm md:text-base font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+              className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm sm:text-base font-medium hover:opacity-90 transition-opacity shadow-md"
             >
               Get Started
             </Link>
@@ -63,4 +63,4 @@ export default function Header() {
       </div>
     </motion.header>
   )
-}
+} 
