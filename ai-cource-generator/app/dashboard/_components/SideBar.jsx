@@ -45,7 +45,7 @@ export const SideBar = () => {
 
     return (
         <motion.div 
-            className='h-screen fixed w-64 p-5 border-r dark:border-gray-800 bg-background dark:bg-gray-900 transition-colors duration-200'
+            className='h-screen fixed w-64 p-5  border-r dark:border-gray-800 bg-background dark:bg-gray-900 transition-colors duration-200'
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -130,7 +130,7 @@ export const SideBar = () => {
             </div>
 
             {/* Free Tier Progress */}
-            <div className="absolute bottom-5 left-5 right-5 space-y-2">
+            <div className="pb-8 absolute bottom-5 left-5 right-5 space-y-2">
                 <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
                     <span>Free Tier Usage</span>
                     <span>{usedCourses} / {maxFreeCourses}</span>

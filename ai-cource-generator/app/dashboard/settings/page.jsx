@@ -8,9 +8,8 @@ export default function SettingsPage() {
     return (
         <div className="flex flex-col gap-6 w-full">
             <DashboardHeader
-                heading="Settings"
-                subheading="Manage your account settings and preferences"
-                showProgress={true}
+                title="Settings"
+                description="Manage your account settings and preferences"
             />
 
             <div className="grid gap-6 w-full">
@@ -70,4 +69,4 @@ export default function SettingsPage() {
             </div>
         </div>
     );
-} 
+}

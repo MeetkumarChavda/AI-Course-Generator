@@ -2,17 +2,10 @@
 
 import React from 'react';
 import { motion } from "framer-motion";
-import { Progress } from "@/components/ui/progress";
 import { useUser } from "@clerk/nextjs";
 
 export const DashboardHeader = ({ title, description }) => {
     const { user } = useUser();
-    const [progress, setProgress] = React.useState(13);
-
-    React.useEffect(() => {
-        const timer = setTimeout(() => setProgress(66), 500);
-        return () => clearTimeout(timer);
-    }, []);
 
     return (
         <div className="mb-8 space-y-4">
@@ -63,15 +56,6 @@ export const DashboardHeader = ({ title, description }) => {
                     </motion.div>
                 )}
             </div>
-
-            {/* Progress Bar */}
-            <div className="space-y-2">
-                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
-                    <span>Course Progress</span>
-                    <span>{progress}%</span>
-                </div>
-                <Progress value={progress} className="h-2" />
-            </div>
         </div>
     );
-}; 
+};

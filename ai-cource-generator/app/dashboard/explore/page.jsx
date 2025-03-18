@@ -9,9 +9,8 @@ export default function ExplorePage() {
     return (
         <div className="flex flex-col gap-6 w-full">
             <DashboardHeader
-                heading="Explore Courses"
-                subheading="Discover and enroll in AI-powered courses"
-                showProgress={true}
+                title="Explore Courses"
+                description="Discover and enroll in AI-powered courses"
             />
 
             {/* Search Section */}

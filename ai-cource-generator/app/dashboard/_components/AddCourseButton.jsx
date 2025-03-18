@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiPlus } from 'react-icons/fi';
+import Link from 'next/link';
 
 export const AddCourseButton = ({ usedCourses = 0, maxCourses = 5 }) => {
     const isDisabled = usedCourses >= maxCourses;
@@ -20,11 +21,13 @@ export const AddCourseButton = ({ usedCourses = 0, maxCourses = 5 }) => {
             `}
             disabled={isDisabled}
         >
-            <span className="flex items-center gap-2">
-                <FiPlus className="w-5 h-5" />
-                Create New Course
-            </span>
-            
+            <Link href="/create-course">
+                <span className="flex items-center gap-2">
+                    <FiPlus className="w-5 h-5" />
+                    Create New Course
+                </span>
+            </Link>
+
             {isDisabled && (
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -36,4 +39,4 @@ export const AddCourseButton = ({ usedCourses = 0, maxCourses = 5 }) => {
             )}
         </motion.button>
     );
-}; 
+};
