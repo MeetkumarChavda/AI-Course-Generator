@@ -13,10 +13,13 @@ import SelectOption from "./_components/SelectOption";
 import { UserInputContext } from "../_context/UserInputContext";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { GenrateCourceLayour_AI } from "../../configs/AiModel";
+import LoadingDialog from "./_components/LoadingDialog";
 
 const CreateCourse = () => {
   const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -61,27 +64,41 @@ const CreateCourse = () => {
     { id: 3, name: "Options", icon: <HiClipboardDocumentCheck size={20} /> },
   ];
 
+  const GenerateCourseLayout = async () => {
+    setLoading(true);
+    const BASIC_PROMPT = `Generate A Course Tutorial on Following Detail with field as Course Name , Description , Along with Chapter Name , about , Duration : `;
+
+    const USER_INPUT_PROMPT = `Category : ${userCourseInput?.category} , Topic : ${userCourseInput?.topic} , Level : ${userCourseInput?.level} , Duration : ${userCourseInput?.duration} , No Of Chapters : ${userCourseInput?.noOfChapters} in JSON Format`;
+
+    const PROMPT = `${BASIC_PROMPT} ${USER_INPUT_PROMPT}`;
+
+    const result = await GenrateCourceLayour_AI.sendMessage(PROMPT);
+    console.log(result.response?.text());
+    console.log(JSON.parse(result.response?.text()));
+    setLoading(false);
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto py-4 sm:py-8">
-      <div className="flex flex-col items-center space-y-6 mb-8 sm:mb-12">
+      <div className="flex flex-col items-center mb-8 sm:mb-12 space-y-6">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center px-4"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
+          <h2 className="bg-clip-text bg-gradient-to-r text-3xl text-transparent font-bold from-purple-500 sm:text-4xl to-blue-500">
             Create Your AI Course
           </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground/80">
+          <p className="text-muted-foreground/80 text-sm mt-3 sm:mt-4 sm:text-base">
             Design a comprehensive learning experience in just three steps
           </p>
         </motion.div>
 
         {/* Enhanced Stepper */}
-        <div className="flex mt-6 sm:mt-10 w-full justify-center px-4">
+        <div className="flex justify-center w-full mt-6 px-4 sm:mt-10">
           {StepperOptions.map((item, index) => (
             <div key={index} className="flex items-center">
-              <div className="flex flex-col items-center w-[40px] sm:w-[50px] md:w-[120px] transition-all duration-300">
+              <div className="flex flex-col w-[40px] duration-300 items-center md:w-[120px] sm:w-[50px] transition-all">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -96,7 +113,7 @@ const CreateCourse = () => {
                     size: window.innerWidth < 640 ? 16 : 20,
                   })}
                 </motion.div>
-                <h2 className="hidden md:block text-xs sm:text-sm mt-2 sm:mt-3 font-medium text-muted-foreground/80">
+                <h2 className="text-muted-foreground/80 text-xs font-medium hidden md:block mt-2 sm:mt-3 sm:text-sm">
                   {item.name}
                 </h2>
               </div>
@@ -121,18 +138,18 @@ const CreateCourse = () => {
         transition={{ duration: 0.4 }}
         className="mx-4"
       >
-        <Card className="relative border-0 shadow-xl overflow-hidden backdrop-blur-sm rounded-xl sm:rounded-2xl bg-background/40 dark:bg-gray-900/40">
+        <Card className="bg-background/40 border-0 rounded-xl shadow-xl backdrop-blur-sm dark:bg-gray-900/40 overflow-hidden relative sm:rounded-2xl">
           {/* Subtle border gradient */}
-          <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10" />
+          <div className="bg-gradient-to-br rounded-xl absolute from-purple-500/10 inset-0 sm:rounded-2xl to-blue-500/10" />
 
           {/* Progress bar */}
           <div
-            className="h-1 relative z-10 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300"
+            className="bg-gradient-to-r h-1 duration-300 from-purple-500 relative to-blue-500 transition-all z-10"
             style={{ width: `${((activeIndex + 1) / 3) * 100}%` }}
           />
 
-          <CardContent className="relative z-10 p-4 sm:p-6 md:p-8 bg-background/30 dark:bg-gray-900/30 backdrop-blur-md">
-            <div className="px-2 sm:px-4 md:px-12 lg:px-20 mt-2 sm:mt-4 mb-4 sm:mb-8">
+          <CardContent className="bg-background/30 p-4 backdrop-blur-md dark:bg-gray-900/30 md:p-8 relative sm:p-6 z-10">
+            <div className="lg:px-20 mb-4 md:px-12 mt-2 px-2 sm:mb-8 sm:mt-4 sm:px-4">
               {/* Main Content */}
               <motion.div
                 key={activeIndex}
@@ -153,7 +170,7 @@ const CreateCourse = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-6 sm:mt-8 space-x-3 sm:space-x-4 px-2 sm:px-4 md:px-12 lg:px-20">
+            <div className="flex justify-between lg:px-20 md:px-12 mt-6 px-2 sm:mt-8 sm:px-4 sm:space-x-4 space-x-3">
               <motion.button
                 disabled={activeIndex == 0}
                 onClick={() => setActiveIndex(activeIndex - 1)}
@@ -191,7 +208,7 @@ const CreateCourse = () => {
               ) : (
                 <motion.button
                   disabled={checkStatus()}
-                  onClick={() => setActiveIndex(activeIndex + 1)}
+                  onClick={() => GenerateCourseLayout()}
                   whileHover={!checkStatus() ? { scale: 1.02 } : {}}
                   whileTap={!checkStatus() ? { scale: 0.98 } : {}}
                   className={`
@@ -203,7 +220,7 @@ const CreateCourse = () => {
                     }
                   `}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex gap-2 items-center">
                     Generate Course
                   </span>
                 </motion.button>
@@ -215,7 +232,7 @@ const CreateCourse = () => {
 
       {/* Progress indicator */}
       <div className="flex justify-center mt-4 sm:mt-6">
-        <div className="flex space-x-3 sm:space-x-4">
+        <div className="flex sm:space-x-4 space-x-3">
           {[0, 1, 2].map((step) => (
             <motion.div
               key={step}
@@ -230,6 +247,8 @@ const CreateCourse = () => {
           ))}
         </div>
       </div>
+
+      <LoadingDialog loading={loading} />
     </div>
   );
 };
