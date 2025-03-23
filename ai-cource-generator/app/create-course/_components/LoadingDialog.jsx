@@ -1,14 +1,10 @@
 import React from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
 
@@ -16,19 +12,23 @@ const LoadingDialog = ({ loading }) => {
   return (
     <AlertDialog open={loading}>
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogDescription>
+        <AlertDialogHeader className="flex flex-col items-center justify-center">
+          <AlertDialogTitle className="sr-only">
+            Generating Course Content
+          </AlertDialogTitle>
+          <AlertDialogDescription asChild>
             <div className="flex flex-col items-center justify-center">
               <Image
-                src={"/loader.gif"}
-                alt="loader"
-                width={100}
-                height={100}
-                className="rounded-full"
+                src="/loader.gif"
+                alt="Loading..."
+                width={200}
+                height={200}
+                className="rounded-lg"
               />
-              <h2 className="text-2xl font-bold mt-4">
-                Please Wait... Ai Working on your course
-              </h2>
+              <h2 className="text-2xl font-bold mt-4">Please wait...</h2>
+              <p className="text-muted-foreground text-sm mt-2">
+                We are generating your course content
+              </p>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
