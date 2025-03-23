@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -13,14 +12,21 @@ import SelectOption from "./_components/SelectOption";
 import { UserInputContext } from "../_context/UserInputContext";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { GenrateCourceLayour_AI } from "../../configs/AiModel";
+import { GenrateCourceLayour_AI } from "../../config/AiModel";
 import LoadingDialog from "./_components/LoadingDialog";
+import { db } from "@/config/db";
+import { CourseList } from "@/config/schema";
+import uuid4 from "uuid4";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const CreateCourse = () => {
   const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
+  const { user } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     console.log(userCourseInput);
@@ -76,6 +82,25 @@ const CreateCourse = () => {
     console.log(result.response?.text());
     console.log(JSON.parse(result.response?.text()));
     setLoading(false);
+    SaveCourseLayoutInDb(JSON.parse(result.response?.text()));
+  };
+
+  const SaveCourseLayoutInDb = async (courseLayout) => {
+    var id = uuid4(); // courseID
+    setLoading(true);
+    const result = await db.insert(CourseList).values({
+      courseId: id,
+      name: userCourseInput?.topic,
+      level: userCourseInput?.level,
+      category: userCourseInput?.category,
+      courseOutput: courseLayout,
+      createdBy: user?.primaryEmailAddress?.emailAddress,
+      userName: user?.fullName,
+      userProfileImage: user?.imageUrl,
+    });
+
+    setLoading(false);
+    router.replace(`/create-course/${id}`);
   };
 
   return (
